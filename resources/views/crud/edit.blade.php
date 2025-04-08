@@ -17,22 +17,21 @@
         <input type="hidden" value="{{ $stock->id }}">
           <label class="input input-bordered flex items-center gap-2">
             Nama Barang
-            <input type="text" class="grow" name="name" />
+            <input type="text" class="grow" name="name" value="{{ old('name',$stock->name) }}" />
           </label>
           <label class="input input-bordered flex items-center gap-2">
            Jumlah Barang
-            <input type="number" class="grow" name="jumlah" />
+            <input type="number" class="grow" name="jumlah" value="{{ old('jumlah',$stock->jumlah) }}" />
           </label>
           <label class="input input-bordered flex items-center gap-2">
             Harga Barang
-             <input type="number" class="grow" name="harga" />
+             <input type="number" class="grow" name="harga" value="{{ old('harga',$stock->harga) }}" />
            </label>
           <label class="input input-bordered flex items-center gap-2">
             Deskripsi Barang
-            <input type="text" class="grow" name="deskripsi" />
+            <input type="text" class="grow" name="deskripsi" value="{{ old('deskripsi',$stock->deskripsi) }}" />
           </label>
-          <input type="file" name="image" class="file-input file-input-bordered w-full" />
-
+          <input type="file" name="image" class="file-input file-input-bordered w-full"/>
           <div class="flex justify-center mt-6">
             <button class="btn btn-success">
                 Edit

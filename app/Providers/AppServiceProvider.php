@@ -31,15 +31,5 @@ class AppServiceProvider extends ServiceProvider
 
             $view->with('cartCount', $cartCount);
         });
-
-        View::composer('layouts.navbar', function ($view) {
-            $orderCount = 0;
-
-            if (auth()->check()) {
-                $orderCount = Order::where('username', auth()->user()->name)->count();
-            }
-
-            $view->with('orderCount', $orderCount);
-        });
     }
 }

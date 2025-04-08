@@ -7,12 +7,12 @@
     <title>Document</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body>
+<body class="bg-krem min-h-screen max-h-full">
     @include('layouts.navbar')
 
     <div class="grid grid-cols-3 gap-4 ml-16 mt-4 mr-4">
         @forelse ($stock as $item)
-        <div class="card bg-base-100 w-96 shadow-xl">
+        <div class="card bg-coklat3 w-96 shadow-xl mb-8 text-white">
             <figure>
               <img class="h-56"
                 src="{{ asset('storage/' . $item->image)}}"

@@ -7,24 +7,25 @@
     <title>Order</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body>
+<body class="bg-krem min-h-screen max-h-full text-white">
 @include('layouts.navbar')
 
 
 <div class="overflow-x-auto">
     <table class="table">
       <!-- head -->
-      <thead>
+      <thead class="text-coklat3">
         <tr>
           <th>id</th>
           <th>username</th>
           <th>pesanan</th>
           <th>harga</th>
           <th>jumlah</th>
+          <th>Total Harga</th>
           <th>Status Pesanan</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody class="text-coklat3">
         <!-- row 1 -->
         @forelse ($order as $item)
         <tr>
@@ -36,6 +37,7 @@
             <td>{{ $item->pesanan }}</td>
             <td>{{ $item->harga }}</td>
             <td>{{ $item->jumlah }}</td>
+            <td>{{ $total = $item->harga * $item->jumlah }}</td>
             <td>{{ $item->status }}</td>
             <td>
                 <input type="hidden" name="status" value="Pesanan Selesai">
@@ -49,13 +51,36 @@
                 </button>
             </form>
             </td>
-            @else
+            @elseif($item->status == 'Pending')
 
             <th>{{ $item->id }}</th>
             <td>{{ $item->username }}</td>
             <td>{{ $item->pesanan }}</td>
             <td>{{ $item->harga }}</td>
             <td>{{ $item->jumlah }}</td>
+            <td>{{ $total = $item->harga * $item->jumlah }}</td>
+            <td>{{ $item->status }}</td>
+            <td>
+                <form action="{{ route('bayar.order',$item->id) }}" method="POST">
+                    @csrf
+                <input type="hidden" name="status" value="Process">
+                    <input type="hidden" name="id" value="{{ $item->id }}">
+                    <input type="hidden" name="username" value="{{ $item->username }}">
+                    <input type="hidden" name="pesanan" value="{{ $item->pesanan }}">
+                    <input type="hidden" name="harga" value="{{ $item->harga }}">
+                    <input type="hidden" name="jumlah" value="{{ $item->jumlah }}">
+                <button class="btn btn-primary">
+                    Bayar
+                </button>
+            </form>
+            </td>
+            @else
+            <th>{{ $item->id }}</th>
+            <td>{{ $item->username }}</td>
+            <td>{{ $item->pesanan }}</td>
+            <td>{{ $item->harga }}</td>
+            <td>{{ $item->jumlah }}</td>
+            <td>{{ $total = $item->harga * $item->jumlah }}</td>
             <td>{{ $item->status }}</td>
             @endif
 

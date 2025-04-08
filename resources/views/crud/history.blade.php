@@ -7,7 +7,7 @@
     <title>Order</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body>
+<body class="bg-krem text-white h-screen">
 @include('layouts.navigation')
 
 
@@ -15,16 +15,17 @@
     <table class="table">
       <!-- head -->
       <thead>
-        <tr>
+        <tr class="text-coklat3">
           <th>id</th>
           <th>username</th>
           <th>pesanan</th>
           <th>harga</th>
           <th>jumlah</th>
+          <th>Total Harga</th>
           <th>Status</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody class="text-coklat3">
         <!-- row 1 -->
         @forelse ($order as $item)
         <tr>
@@ -33,6 +34,7 @@
             <td>{{ $item->pesanan }}</td>
             <td>{{ $item->harga }}</td>
             <td>{{ $item->jumlah }}</td>
+            <td>{{ $total = $item->harga * $item->jumlah }}</td>
             <td>{{ $item->status }}</td>
             <td>
                 @if ($item->status == 'Pending')

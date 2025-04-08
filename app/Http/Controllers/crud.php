@@ -8,6 +8,7 @@ use App\Models\Stock;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Auth\Events\Validated;
+use Illuminate\Support\Facades\Storage;
 
 class crud extends Controller
 {
@@ -58,6 +59,10 @@ class crud extends Controller
             'image' => 'required|image|mimes:jpg,png,jpeg,gif'
         ]);
 
+        $image = Stock::where('id',$request->id)->value('image');
+
+        Storage::delete("public/$image");
+
         $path = $request->file('image')->store('post-images', 'public');
         $validation['image'] = $path;
 
@@ -73,12 +78,18 @@ class crud extends Controller
     }
 
     public function delete(Request $request){
-        Stock::where('id',$request->id)->delete();
+
+        $image = Stock::where('id',$request->id)->value('image');
+        Storage::delete("public/$image");
+
+        $stock = Stock::where('id',$request->id);
+        $stock->delete();
         return view('dashboard');
     }
 
     public function home(){
-        $stock = Stock::all();
+        $stock = Stock::where('jumlah','>',0)->get();
+
         return view('client',compact('stock'));
     }
 
@@ -118,6 +129,7 @@ class crud extends Controller
 
         ]);
 
+
         Order::create($validation);
 
         Cart::where('id',$request->id)->delete();
@@ -151,7 +163,8 @@ class crud extends Controller
         return redirect(route('come.order'));
     }
 
-    public function confirmOrder(Request $request){
+
+    public function bayarOrder(Request $request){
         $order = Order::where('id',$request->id);
 
         $validation = $request->validate([
@@ -165,6 +178,62 @@ class crud extends Controller
 
         $order->update($validation);
         return redirect(route('user.order'));
+    }
+
+    public function confirmOrder(Request $request){
+
+        $validation = $request->validate([
+            'username' => 'required|max:255',
+            'pesanan' => 'required|max:255',
+            'harga' => 'required',
+            'jumlah'=> 'required',
+            'status' => 'required',
+
+        ]);
+
+        $stock = Stock::where('name',$request->pesanan);
+
+        $stock->update($validation);
+
+
+        return redirect(route('user.order'));
+    }
+
+    public function confirmOrderFinal(Request $request){
+        $order = Order::where('id',$request->id);
+
+        $validation = $request->validate([
+            'username' => 'required|max:255',
+            'pesanan' => 'required|max:255',
+            'harga' => 'required',
+            'jumlah'=> 'required',
+            'status' => 'required',
+
+        ]);
+
+        $stock = Stock::where('name',$request->pesanan)->value('jumlah');
+
+        if($stock > 0){
+
+            Stock::where('name',$request->pesanan)->decrement('jumlah', $request->jumlah);
+            $order->update($validation);
+            return redirect(route('user.order'));
+        }
+        else
+        return redirect(route('user.order'));
+    }
+
+    public function search(Request $request)
+    {
+        $keyword = $request->input('search');
+
+        $searchResults = Stock::where('name', 'LIKE', "%{$keyword}%")
+                     ->orWhere('deskripsi', 'LIKE', "%{$keyword}%")
+                     ->orWhere('harga', 'LIKE', "%{$keyword}%")
+                     ->paginate(10);
+
+    return view('crud.search', compact('searchResults'));
+
     }
 
 

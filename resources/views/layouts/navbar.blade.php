@@ -1,13 +1,11 @@
-<nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
+<nav x-data="{ open: false }" class="bg-coklat1 border-b border-neutral-900">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ route('user.dashboard') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
-                    </a>
+
                 </div>
 
                 <!-- Navigation Links -->
@@ -20,7 +18,6 @@
                 </div>
 
                 <div class="indicator mt-4">
-                    <span class="indicator-item badge badge-secondary">{{ $orderCount }}</span>
                         <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                             <x-nav-link :href="route('user.order')" :active="request()->routeIs('user.order')">
                                 {{ __('Pesanan Anda') }}
@@ -38,9 +35,8 @@
                         </div>
                   </div>
 
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('user.dashboard')" :active="request()->routeIs('dashboard')">
-                        <label class="input input-bordered flex items-center gap-2">
+                  <form action="{{ route('search') }}" method="GET">
+                        <label class="input input-bordered flex items-center gap-2 ml-36 mt-2 bg-coklat3 text-white">
                             <input type="text" name="search" class="grow" placeholder="Search" />
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -53,9 +49,7 @@
                                 clip-rule="evenodd" />
                             </svg>
                           </label>
-                    </x-nav-link>
-                </div>
-
+                  </form>
 
             </div>
 

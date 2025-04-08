@@ -25,9 +25,11 @@ Route::middleware('auth','role:user')->group(function () {
     Route::get('/cart', [crud::class, 'cart'])->name('user.cart');
     Route::post('/cart/{id}', [crud::class, 'cartStore']);
     Route::post('/order/{id}', [crud::class, 'order'])->name('order');
-    Route::post('/confirm/order/{id}', [crud::class, 'confirmOrder'])->name('confirm.order');
+    Route::post('/confirm/order/{id}', [crud::class, 'confirmOrderFinal'])->name('confirm.order');
+    Route::post('/bayar/order/{id}', [crud::class, 'bayarOrder'])->name('bayar.order');
     Route::get('/your/order',[crud::class,'userOrder'])->name('user.order');
     Route::post('/delete/cart/{id}', [crud::class, 'deleteCart'])->name('delete.cart');
+    Route::get('/search', [crud::class, 'search'])->name('search');
 });
 
 Route::middleware('auth','role:admin')->group(function () {
@@ -46,6 +48,7 @@ Route::middleware('auth','role:admin')->group(function () {
     })->name('dashboard');
     Route::post('/proses/order/{id}', [crud::class, 'prosesOrder'])->name('proses.order');
     Route::post('/success/order/{id}', [crud::class, 'prosesOrder'])->name('success.order');
+
 });
 
 require __DIR__.'/auth.php';

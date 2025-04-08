@@ -14,6 +14,12 @@ export default {
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
+            colors:{
+                krem: '#FFF0D1',
+                coklat1:'#664343',
+                coklat2:'#795757',
+                coklat3:'#3B3030',
+            },
         },
     },
     daisyui: {

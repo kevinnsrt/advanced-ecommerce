@@ -8,10 +8,10 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="bg-krem min-h-screen">
-@include('layouts.navigation')
+@include('layouts.navbar')
 
 <div class="grid grid-cols-3 gap-4 ml-16 mt-4 mr-4">
-    @forelse ($stock as $item)
+    @forelse ($searchResults as $item)
     <div class="card bg-coklat3 w-96 shadow-xl mb-8 text-white">
         <figure>
           <img class="h-56"
@@ -19,28 +19,27 @@
             alt="Shoes" />
         </figure>
         <div class="card-body">
+            <form method="POST" action="/cart/{{ $item->id }}">
+                @csrf
           <h2 class="card-title">{{ $item->name }}</h2>
-          <p>Harga Barang : {{ $item->harga }}</p>
-          <p>Jumlah Barang : {{ $item->jumlah }}</p>
+          <p>Harga Barang: {{ $item->harga }}</p>
           <p>{{ $item->deskripsi }}</p>
-          <div class="card-actions justify-center gap-4 mt-4">
-
-            <form action="{{ route('edit',$item->id) }}" method="POST">
-                @csrf
-            <input type="hidden" value="{{ $item->id }}">
-            <button class="btn btn-white">Edit</button>
-            </form>
-
-            <form action="{{ route('delete',$item->id) }}" method="POST">
-                @csrf
-                <button class="btn btn-error">Delete</button>
-            </form>
+            <input type="hidden" name="user_id" value="{{ auth()->id() }}">
+            <input type="hidden" name="id" value="{{ $item->id }}">
+            <input type="hidden" name="name" value="{{ $item->name }}">
+            <input type="hidden" name="harga" value="{{ $item->harga }}">
+            <div class="mt-4 flex justify-center gap-4">
+            <div class="card-actions justify-center gap-4">
+                <button class="btn btn-success">Buy</button>
+          </form>
             </div>
-        </div>
+          </div>
+            </div>
     </div>
     @empty
     <p>Tidak ada stock barang</p>
   @endforelse
+</div>
 </div>
 
 </div>

@@ -7,12 +7,13 @@
     <title>Cart</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body>
+<body class="bg-krem min-h-screen max-h-full text-white">
 @include('layouts.navbar')
 <div class="overflow-x-auto">
-    <table class="table">
+    @forelse ($cart as $item)
+    <table class="table ">
       <!-- head -->
-      <thead>
+      <thead class="text-coklat3">
         <tr>
           <th></th>
           <th>Barang</th>
@@ -20,9 +21,9 @@
           <th>Jumlah</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody class="text-coklat3">
         <!-- row  -->
-        @forelse ($cart as $item)
+
         <tr>
           <th>{{ $item->id }}</th>
           <td>{{ $item->name }}</td>
@@ -30,7 +31,7 @@
           <td>
             <form method="POST" action="{{ route('order',$item->id) }}">
                 @csrf
-            <input type="number" name="jumlah">
+            <input type="number" name="jumlah" class="bg-coklat3 text-krem">
           </td>
           {{-- <td>{{ $item->jumlah }}</td> --}}
           <td>
@@ -55,10 +56,10 @@
           </td>
         </tr>
         @empty
-        <p class="flex justify-center mt-8 mb-8">Tidak Ada Barang Pada Cart</p>
-        @endforelse
+        <p class="flex justify-center mt-8 mb-8 text-coklat3">Tidak Ada Barang Pada Cart</p>
       </tbody>
     </table>
+    @endforelse
   </div>
 </body>
 </html>
